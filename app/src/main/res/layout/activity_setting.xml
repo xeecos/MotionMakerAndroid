@@ -6,4 +6,88 @@
     android:layout_height="match_parent"
     tools:context=".SettingActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="69dp"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="6dp"
+        tools:layout_editor_absoluteY="99dp">
+
+        <EditText
+            android:id="@+id/editTextTextPersonName4"
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:layout_weight="1"
+            android:editable="false"
+            android:ems="10"
+            android:inputType="none"
+            android:text="IP :" />
+
+        <EditText
+            android:id="@+id/editTextIP1"
+            android:layout_width="54dp"
+            android:layout_height="43dp"
+            android:ems="10"
+            android:inputType="number"
+            android:text="192"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName"
+            android:layout_width="17dp"
+            android:layout_height="43dp"
+            android:editable="false"
+            android:ems="10"
+            android:inputType="none"
+            android:text="."
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/editTextIP2"
+            android:layout_width="54dp"
+            android:layout_height="43dp"
+            android:ems="10"
+            android:inputType="number"
+            android:text="168"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName2"
+            android:layout_width="17dp"
+            android:layout_height="43dp"
+            android:editable="false"
+            android:ems="10"
+            android:inputType="none"
+            android:text="."
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/editTextIP3"
+            android:layout_width="54dp"
+            android:layout_height="43dp"
+            android:ems="10"
+            android:inputType="number"
+            android:text="43"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName3"
+            android:layout_width="15dp"
+            android:layout_height="43dp"
+            android:editable="false"
+            android:ems="10"
+            android:inputType="none"
+            android:text="."
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/editTextIP4"
+            android:layout_width="54dp"
+            android:layout_height="43dp"
+            android:ems="10"
+            android:inputType="number"
+            android:text="204"
+            android:textAlignment="center" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
