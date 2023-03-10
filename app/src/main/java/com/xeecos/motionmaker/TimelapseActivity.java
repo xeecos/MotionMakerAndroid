@@ -151,7 +151,7 @@ public class TimelapseActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        Toast.makeText(TimelapseActivity.this, response.substring(0,50), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TimelapseActivity.this, response, Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override

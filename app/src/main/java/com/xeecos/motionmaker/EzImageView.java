@@ -87,7 +87,7 @@ public class EzImageView extends ImageView {
                                 int idx = y*width+x;;
                                 if(y%2==0)
                                 {
-                                    if(x%2==1)
+                                    if(x%2==0)
                                     {
                                         r = (grays[idx-1]+grays[idx+1])>>1;
                                         g = grays[idx];
@@ -102,7 +102,7 @@ public class EzImageView extends ImageView {
                                 }
                                 else
                                 {
-                                    if(x%2==1)
+                                    if(x%2==0)
                                     {
                                        r = (grays[idx-width-1]+grays[idx+width-1]+grays[idx-width+1]+grays[idx+width+1])>>2;
                                        g = (grays[idx-width]+grays[idx+width])>>1;
