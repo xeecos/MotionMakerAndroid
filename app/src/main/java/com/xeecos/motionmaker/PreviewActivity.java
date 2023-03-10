@@ -149,6 +149,9 @@ public class PreviewActivity extends AppCompatActivity {
         txt_gaing.setText(""+gaing);
         txt_gainb.setText(""+gainb);
 
+        String ip = sp.getString("ipaddress", "192.168.43.204");
+        request("http://"+ip+"/storage/set?mode=camera");
+
     }
     private void request(String url)
     {

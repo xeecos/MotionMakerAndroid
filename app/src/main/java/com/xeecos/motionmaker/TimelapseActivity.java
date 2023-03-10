@@ -135,6 +135,8 @@ public class TimelapseActivity extends AppCompatActivity {
         int hours = (int)(floor(totaltime/3600.0));
         int minutes = (int)(totaltime/60-hours*60);
         txt_totaltime.setText(""+(hours)+"小时"+(minutes)+"分");
+        String ip = sp.getString("ipaddress", "192.168.43.204");
+        request("http://"+ip+"/storage/set?mode=camera");
 //        Toast.makeText(this,separated[0].toLowerCase(), Toast.LENGTH_SHORT).show();
 //        request("http://www.baidu.com");
     }
