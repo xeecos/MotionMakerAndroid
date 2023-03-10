@@ -46,6 +46,7 @@ public class PreviewActivity extends AppCompatActivity {
                 String ip = sp.getString("ipaddress", "192.168.43.204");
                 EzImageView imageView = (EzImageView) findViewById(R.id.imageView);
                 imageView.setImageDrawable(null);
+//                imageView.setImageURL("http://snibgo.com/imforums/parrots_mos.jpg");
                 imageView.setImageURL("http://"+ip+"/preview/latest.jpg");
             }
         });
