@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -74,7 +76,29 @@ public class TimelapseActivity extends AppCompatActivity {
             public void onClick(View v) {
                 SharedPreferences sp = getSharedPreferences("ezsetting", Context.MODE_PRIVATE);
                 String ip = sp.getString("ipaddress", "192.168.43.204");
-                request("http://"+ip+"/task/start");
+
+                float gainr = parseFloat(sp.getString("gainr", "4"));
+                float gaing = parseFloat(sp.getString("gaing", "4"));
+                float gainb = parseFloat(sp.getString("gainb", "4"));
+                float fps = parseFloat(txt_fps.getText().toString());
+                float during = parseFloat(txt_during.getText().toString());
+                float videotime = parseFloat(txt_videotime.getText().toString());
+                float exposure = parseFloat(txt_exposure.getText().toString());
+                long time = System.currentTimeMillis()/1000+8*3600;
+                request("http://"+ip+"/time/set?time="+time);
+                final Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        request("http://"+ip+"/task/add?delay=1&interval="+(during*1000)+"&r_gain="+gainr+"&gr_gain="+gaing+"&gb_gain="+gaing+"&b_gain="+gainb+"&frames="+(int)(videotime*fps)+"&resolution=0&mode=3&fine=1&&coarse="+(int)(exposure*1000));
+                    }
+                }, 500);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        request("http://"+ip+"/task/start");
+                    }
+                }, 1000);
             }
         });
 
@@ -106,8 +130,6 @@ public class TimelapseActivity extends AppCompatActivity {
         editor.putString("videotime", ""+videotime);
         editor.putString("exposure", ""+exposure);
         editor.apply();
-        String ip = sp.getString("ipaddress", "192.168.43.204");
-        request("http://"+ip+"/task/add?delay=1000&during="+(during*1000)+"&count="+(int)(videotime*fps)+"&mode=3&exposure="+(int)(exposure*1000));
     }
     @Override
     protected void onResume() {
@@ -151,7 +173,7 @@ public class TimelapseActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        Toast.makeText(TimelapseActivity.this, response.substring(0,50), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TimelapseActivity.this, response, Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override

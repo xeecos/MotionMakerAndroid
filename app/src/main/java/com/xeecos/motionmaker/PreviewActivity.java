@@ -166,7 +166,7 @@ public class PreviewActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        Toast.makeText(PreviewActivity.this, response.substring(0,50), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PreviewActivity.this, response, Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
