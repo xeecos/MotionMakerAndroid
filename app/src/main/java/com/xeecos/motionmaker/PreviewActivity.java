@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.clj.fastble.BleManager;
 
 public class PreviewActivity extends AppCompatActivity {
 
@@ -29,6 +30,7 @@ public class PreviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
+        BleManager.getInstance().init(getApplication());
         Button settingBt = (Button)findViewById(R.id.buttonSetting);
         settingBt.setOnClickListener(new View.OnClickListener() {
              @Override

@@ -65,63 +65,66 @@ public class EzImageView extends ImageView {
                     if (code == 200) {
                         InputStream inputStream = connection.getInputStream();
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                        int width = bitmap.getWidth();
-                        int height = bitmap.getHeight();
-                        int[] pixels = new int[width * height];
-                        int[] grays = new int[width*height];
-                        bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
-                        for(int y=0;y<height;y++)
+                        if(bitmap!=null)
                         {
-                            for(int x=0;x<width;x++)
+                            int width = bitmap.getWidth();
+                            int height = bitmap.getHeight();
+                            int[] pixels = new int[width * height];
+                            int[] grays = new int[width*height];
+                            bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+                            for(int y=0;y<height;y++)
                             {
-                                int idx = y*width+x;
-                                grays[idx] = (int)(((pixels[idx]&0xff0000)>>16)*0.3+((pixels[idx]&0xff00)>>8)*0.6+(pixels[idx]&0xff)*0.1);
-                            }
-                        }
-                        Bitmap bm= createBitmap (width,height, Bitmap.Config.ARGB_8888);
-                        int r,g,b;
-                        for(int y=1,ylen = height-1;y<ylen;y++)
-                        {
-                            for(int x=1,xlen=width-1;x<xlen;x++)
-                            {
-                                int idx = y*width+x;;
-                                if(y%2==0)
+                                for(int x=0;x<width;x++)
                                 {
-                                    if(x%2==1)
+                                    int idx = y*width+x;
+                                    grays[idx] = (int)(((pixels[idx]&0xff0000)>>16)*0.3+((pixels[idx]&0xff00)>>8)*0.6+(pixels[idx]&0xff)*0.1);
+                                }
+                            }
+                            Bitmap bm= createBitmap (width,height, Bitmap.Config.ARGB_8888);
+                            int r,g,b;
+                            for(int y=1,ylen = height-1;y<ylen;y++)
+                            {
+                                for(int x=1,xlen=width-1;x<xlen;x++)
+                                {
+                                    int idx = y*width+x;;
+                                    if(y%2==0)
                                     {
-                                        r = (grays[idx-1]+grays[idx+1])>>1;
-                                        g = grays[idx];
-                                        b = (grays[idx-width]+grays[idx+width])>>1;
+                                        if(x%2==1)
+                                        {
+                                            r = (grays[idx-1]+grays[idx+1])>>1;
+                                            g = grays[idx];
+                                            b = (grays[idx-width]+grays[idx+width])>>1;
+                                        }
+                                        else
+                                        {
+                                            r = grays[idx];
+                                            g = (grays[idx-1]+grays[idx+1])>>1;
+                                            b = (grays[idx-width-1]+grays[idx+width-1]+grays[idx-width+1]+grays[idx+width+1])>>2;
+                                        }
                                     }
                                     else
                                     {
-                                        r = grays[idx];
-                                        g = (grays[idx-1]+grays[idx+1])>>1;
-                                        b = (grays[idx-width-1]+grays[idx+width-1]+grays[idx-width+1]+grays[idx+width+1])>>2;
+                                        if(x%2==1)
+                                        {
+                                            r = (grays[idx-width-1]+grays[idx+width-1]+grays[idx-width+1]+grays[idx+width+1])>>2;
+                                            g = (grays[idx-width]+grays[idx+width])>>1;
+                                            b = grays[idx];
+                                        }
+                                        else
+                                        {
+                                            r = (grays[idx-width]+grays[idx+width])>>1;
+                                            g = grays[idx];
+                                            b = (grays[idx-1]+grays[idx+1])>>1;
+                                        }
                                     }
+                                    bm.setPixel(x,y, Color.argb(0xff,r,g,b));
                                 }
-                                else
-                                {
-                                    if(x%2==1)
-                                    {
-                                       r = (grays[idx-width-1]+grays[idx+width-1]+grays[idx-width+1]+grays[idx+width+1])>>2;
-                                       g = (grays[idx-width]+grays[idx+width])>>1;
-                                       b = grays[idx];
-                                    }
-                                    else
-                                    {
-                                        r = (grays[idx-width]+grays[idx+width])>>1;
-                                        g = grays[idx];
-                                        b = (grays[idx-1]+grays[idx+1])>>1;
-                                    }
-                                }
-                                bm.setPixel(x,y, Color.argb(0xff,r,g,b));
                             }
+                            Message msg = Message.obtain();
+                            msg.obj = bm;
+                            msg.what = GET_DATA_SUCCESS;
+                            handler.sendMessage(msg);
                         }
-                        Message msg = Message.obtain();
-                        msg.obj = bm;
-                        msg.what = GET_DATA_SUCCESS;
-                        handler.sendMessage(msg);
                         inputStream.close();
                     }else {
                         handler.sendEmptyMessage(SERVER_ERROR);
